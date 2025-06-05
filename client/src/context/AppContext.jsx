@@ -22,12 +22,12 @@ export const AppContextProvider = ({ children }) => {
     const [searchQuery, setSearchQuery] = useState({})
 
     // Fetch Seller Status
-    const fetchSeller = async ()=>{
+    const fetchSeller = async () => {
         try {
-            const {data} = await axios.post('/api/seller/is-auth');
-            if(data.success){
+            const { data } = await axios.post('/api/seller/is-auth');
+            if (data.success) {
                 setIsSeller(true)
-            }else{
+            } else {
                 setIsSeller(false)
             }
         } catch (error) {
@@ -36,10 +36,10 @@ export const AppContextProvider = ({ children }) => {
     }
 
     // Fetch User Auth Status, User Data and Cart Items
-    const fetchUser = async ()=>{
+    const fetchUser = async () => {
         try {
-            const {data} = await axios.get('api/user/is-auth');
-            if(data.success){
+            const { data } = await axios.get('api/user/is-auth');
+            if (data.success) {
                 setUser(data.user)
                 setCartItems(data.user.cartItems)
             }
@@ -50,16 +50,16 @@ export const AppContextProvider = ({ children }) => {
 
     // Fetch all products
     const fetchProducts = async () => {
-       try {
-        const {data} = await axios.get('/api/product/list')
-        if(data.success){
-            setProducts(data.products)
-        }else{
-            toast.error(data.message)
+        try {
+            const { data } = await axios.get('/api/product/list')
+            if (data.success) {
+                setProducts(data.products)
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
         }
-       } catch (error) {
-        toast.error(error.message)
-       }
     }
 
     // Add product to cart
@@ -102,7 +102,22 @@ export const AppContextProvider = ({ children }) => {
         fetchProducts()
     }, [])
 
-    
+    // Update Database Cart Items
+    useEffect(() => {
+        const updateCart = async () => {
+            try {
+                const { data } = await axios.post('/api/cart/update', { cartItems })
+                if (!data.success) {
+                    toast.error(data.message)
+                }
+            } catch (error) {
+                toast.error(error.message)
+            }
+        }
+        if (user) {
+            updateCart()
+        }
+    }, [cartItems])
 
     // Get Cart Item Count
     const getCartCount = () => {
