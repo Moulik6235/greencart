@@ -61,6 +61,7 @@ const Cart = () => {
                     toast.error(data.message)
                 }
             } else {
+                // Place Order with Stripe
                 const { data } = await axios.post('/api/order/stripe', {
                     userId: user._id,
                     items: cartArray.map(item => ({ product: item._id, quantity: item.quantity })),
@@ -106,7 +107,7 @@ const Cart = () => {
                     <div key={index} className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 items-center text-sm md:text-base font-medium pt-3">
                         <div className="flex items-center md:gap-6 gap-3">
                             <div onClick={() => {
-                                navigate(`/prroducts/${product.category.toLowerCase()}/${product._id}`); scrollTo(0, 0)
+                                navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0, 0)
                             }} className="cursor-pointer w-24 h-24 flex items-center justify-center border border-gray-300 rounded">
                                 <img className="max-w-full h-full object-cover" src={product.image[0]} alt={product.name} />
                             </div>
@@ -117,8 +118,8 @@ const Cart = () => {
                                     <div className='flex items-center'>
                                         <p>Qty:</p>
                                         <select className='outline-none'>
-                                            {Array(cartItems[product._id] > 9 ? cartItems[product._id] : 9).fill('').map((_, index) => (
-                                                <option key={index} value={index + 1}>{index + 1}</option>
+                                            {Array(Math.max(product.quantity, 9)).fill('').map((_, idx) => (
+                                                <option key={idx} value={idx + 1}>{idx + 1}</option>
                                             ))}
                                         </select>
                                     </div>
