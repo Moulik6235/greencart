@@ -1,6 +1,6 @@
 import React from 'react'
 import { categories } from '../assets/greencart_assets/assets'
-import { useAppContext } from '../context/appContext'
+import { useAppContext } from '../context/AppContext'
 
 const Categories = () => {
     const {navigate} = useAppContext()

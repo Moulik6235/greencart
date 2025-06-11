@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/greencart_assets/assets'
-import { useAppContext } from '../context/appContext'
+import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
 
