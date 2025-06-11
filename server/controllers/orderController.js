@@ -73,7 +73,8 @@ export const placeOrderStripe = async (req, res) => {
             items,
             amount,
             address,
-            paymentType: "Online"
+            paymentType: "Online",
+            isPaid:true
         });
 
         // Stripe Gateway Initialize
